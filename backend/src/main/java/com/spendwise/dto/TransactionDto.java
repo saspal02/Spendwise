@@ -1,0 +1,11 @@
+package com.spendwise.dto;
+
+public record TransactionDto(
+        String transactionId,
+        String type,
+        String description,
+        Double amount,
+        String transactionDate,
+        String transferId
+){
+}

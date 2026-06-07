@@ -1,4 +1,4 @@
-package com.spendwise.backend;
+package com.spendwise;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
