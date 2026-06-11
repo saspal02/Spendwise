@@ -1,8 +1,11 @@
 package com.spendwise.service.category;
 
+import com.spendwise.model.Category;
 import com.spendwise.repo.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +17,16 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean existsByUserAndCategory(String appUserId, Long categoryId) {
         return categoryRepo.existsByAppUserIdAndCategoryId(appUserId, categoryId) || categoryRepo.existsById(categoryId);
 
+    }
+
+    @Override
+    public List<Category> getAllWithoutUserId() {
+        return categoryRepo.findAllByAppUserIsNull();
+    }
+
+    @Override
+    public Category getByName(String category) {
+        return categoryRepo.findByName(category)
+                .orElseThrow(() -> new RuntimeException("Category not found with name" + category));
     }
 }

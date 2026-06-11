@@ -23,16 +23,16 @@ public class UserConfig {
     private Long createdAt;
     private Long updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "app_user_id")
     private AppUser appUser;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "default_payment_mode_id")
     private PaymentMode defaultPaymentMode;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "default_account_id")
-    private Account account;
+    private Account defaultaccount;
 
 }

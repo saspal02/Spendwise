@@ -3,6 +3,7 @@ package com.spendwise.mapper;
 import com.spendwise.dto.TransactionDto;
 import com.spendwise.dto.TransactionRequestDto;
 import com.spendwise.model.*;
+import com.spendwise.service.ai.AiParseResult;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +17,15 @@ public interface TransactionMapper {
     TransactionDto transactionToTransactionDto(Transaction transaction);
 
     List<TransactionDto> transactionToTransactionDto(List<Transaction> transactions);
+
+    TransactionRequestDto fromAiParseResult(AiParseResult aiParseResult);
+
+    @Mapping(target = "transactionDate", source = "result.date")
+    @Mapping(target = "paymentModeId", source = "paymentModeId")
+    @Mapping(target = "accountId", source = "accountId")
+    @Mapping(target = "categoryId", source = "categoryId")
+    TransactionRequestDto fromAiParseTask(AiParseResult result, Long paymentModeId, Long accountId, Long categoryId);
+
 
     @Mapping(target = "appUser", source = "appUserId", qualifiedByName = "idToAppUser")
     @Mapping(target = "paymentMode", source = "dto.paymentModeId", qualifiedByName = "idToPaymentMode")
