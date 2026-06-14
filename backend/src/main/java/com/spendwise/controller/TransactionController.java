@@ -6,6 +6,7 @@ import com.spendwise.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,10 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
-    private static final String LOGGED_IN_USER = "a1029488-f4a8-4466-bada-884994cd22ad";
 
     @PostMapping
-    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionRequestDto requestBody) {
-        final var responseBody = transactionService.saveTransaction(LOGGED_IN_USER,requestBody);
+    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionRequestDto requestBody, @AuthenticationPrincipal String userId) {
+        final var responseBody = transactionService.saveTransaction(userId,requestBody);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -28,8 +28,8 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
-        final var responseBody = transactionService.getAllTransactions(LOGGED_IN_USER);
+    public ResponseEntity<List<TransactionDto>> getAllTransactions(@AuthenticationPrincipal String userId) {
+        final var responseBody = transactionService.getAllTransactions(userId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -37,17 +37,17 @@ public class TransactionController {
     }
 
     @PatchMapping
-    public ResponseEntity<TransactionDto> updateTransaction(@RequestBody TransactionRequestDto requestBody) {
+    public ResponseEntity<TransactionDto> updateTransaction(@RequestBody TransactionRequestDto requestBody, @AuthenticationPrincipal String userId) {
 
-        final var responseBody = transactionService.updateTransaction(LOGGED_IN_USER, requestBody);
+        final var responseBody = transactionService.updateTransaction(userId, requestBody);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(responseBody);
     }
 
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable Long transactionId) {
-        transactionService.deleteTransaction(LOGGED_IN_USER, transactionId);
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long transactionId, @AuthenticationPrincipal String userId) {
+        transactionService.deleteTransaction(userId, transactionId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

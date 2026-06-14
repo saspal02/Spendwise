@@ -1,4 +1,8 @@
 package com.spendwise.service.appuser;
 
-public class AppUserService {
+import com.spendwise.dto.RegisterRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface AppUserService extends UserDetailsService {
+    void registerUser(RegisterRequest request);
 }
