@@ -4,9 +4,12 @@ import com.spendwise.dto.TransactionDto;
 import com.spendwise.dto.TransactionRequestDto;
 import com.spendwise.model.*;
 import com.spendwise.service.ai.AiParseResult;
+import jdk.jfr.Name;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -19,6 +22,11 @@ public interface TransactionMapper {
     List<TransactionDto> transactionToTransactionDto(List<Transaction> transactions);
 
     TransactionRequestDto fromAiParseResult(AiParseResult aiParseResult);
+
+    @Named("convertStringToDate")
+    default LocalDate convertStringToDate(String transactionDate) {
+        return LocalDate.parse(transactionDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
 
     @Mapping(target = "transactionDate", source = "result.date")
     @Mapping(target = "paymentModeId", source = "paymentModeId")

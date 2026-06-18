@@ -1,5 +1,6 @@
 package com.spendwise.service.account;
 
+import com.spendwise.dto.AccountDto;
 import com.spendwise.model.Account;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface AccountService  {
     void update(Account account);
 
     void reverseBalance(Long accountId, Double amount, Long paymentModeId, String type, boolean isSourceAccount);
+
+    List<AccountDto> getAllAccounts(String userId);
 
 
 }

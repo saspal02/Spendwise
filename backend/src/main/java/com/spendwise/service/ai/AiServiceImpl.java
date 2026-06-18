@@ -1,5 +1,6 @@
 package com.spendwise.service.ai;
 
+import com.spendwise.dto.AiActiveTaskDto;
 import com.spendwise.dto.AiInputDto;
 import com.spendwise.dto.AiTaskDto;
 import com.spendwise.dto.TransactionRequestDto;
@@ -24,6 +25,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -131,5 +133,13 @@ public class AiServiceImpl implements AiService {
         eventPublisher.publishEvent(new AiParsingTaskCreated(aiParsingTask.getId()));
 
         return aiParseTaskMapper.toDto(saved, "Ai Task Saved!");
+    }
+
+    @Override
+    public List<AiActiveTaskDto> getActiveTasks(String appUserId) {
+       return aiParseTaskService.getActiveTasks(appUserId)
+               .stream()
+               .map(task -> new AiActiveTaskDto(task.getId().toString(), task.getStatus()))
+               .toList();
     }
 }

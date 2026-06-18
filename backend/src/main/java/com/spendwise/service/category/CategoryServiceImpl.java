@@ -1,5 +1,6 @@
 package com.spendwise.service.category;
 
+import com.spendwise.dto.CategoryDto;
 import com.spendwise.model.Category;
 import com.spendwise.repo.CategoryRepo;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class CategoryServiceImpl implements CategoryService {
     public Category getByName(String category) {
         return categoryRepo.findByName(category)
                 .orElseThrow(() -> new RuntimeException("Category not found with name" + category));
+    }
+
+    @Override
+    public List<CategoryDto> getAllCategoriesForUser(String userId) {
+        return List.of();
     }
 }

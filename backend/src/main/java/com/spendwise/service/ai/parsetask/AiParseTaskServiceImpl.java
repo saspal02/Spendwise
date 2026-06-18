@@ -33,4 +33,18 @@ public class AiParseTaskServiceImpl implements AiParseTaskService {
         return aiParsingTaskRepo.findByIdWithAppUser(jobId)
                 .orElseThrow(() -> new RuntimeException("Ai Parse Task not found with id: " + jobId));
     }
+
+    @Override
+    public List<AiParsingTask> getPendingTasksWithAppUser(Status status) {
+        final var limit = new Limit();
+        limit.setMaxRows(13);
+
+        return aiParsingTaskRepo.findAllByStatusWithAppUserOrderByCreatedAtAsc(status, limit);
+    }
+
+    @Override
+    public List<AiParsingTask> getActiveTasks(String appUserId) {
+        return aiParsingTaskRepo.findActiveTasks(appUserId, List.of(Status.PENDING, Status.PROCESSING));
+    }
+
 }
